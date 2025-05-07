@@ -1,0 +1,13 @@
+df.isnull().sum()
+
+
+df['writing score'].fillna(df['writing score'].mean(),inplace=True)
+
+
+from sklearn.preprocessing import LabelEncoder
+
+label_encodable = ['gender', 'lunch', 'test preparation course']
+le = LabelEncoder()
+
+for col in label_encodable:
+    df[col] = le.fit_transform(df[col])

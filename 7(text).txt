@@ -1,0 +1,68 @@
+with open('sample.txt', 'r', encoding='utf-8') as file:
+    text = file.read()
+
+
+
+import nltk
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+from nltk.stem import PorterStemmer, WordNetLemmatizer
+from nltk import pos_tag
+import string
+
+# Download necessary NLTK data files (run once)
+nltk.download('averaged_perceptron_tagger_eng')
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('averaged_perceptron_tagger')
+nltk.download('wordnet')
+
+# Sample text
+text = "The quick brown foxes are jumping over the lazy dogs in the park."
+
+# Tokenization
+tokens = word_tokenize(text)
+
+# POS Tagging
+pos_tags = pos_tag(tokens)
+
+# Stopwords removal
+stop_words = set(stopwords.words('english'))
+tokens_no_stop = [word for word in tokens if word.lower() not in stop_words and word not in string.punctuation]
+
+# Stemming
+stemmer = PorterStemmer()
+stemmed = [stemmer.stem(word) for word in tokens_no_stop]
+
+# Lemmatization
+lemmatizer = WordNetLemmatizer()
+lemmatized = [lemmatizer.lemmatize(word) for word in tokens_no_stop]
+
+print("Original Tokens:", tokens)
+print("POS Tags:", pos_tags)
+print("After Stopwords Removal:", tokens_no_stop)
+print("After Stemming:", stemmed)
+print("After Lemmatization:", lemmatized)
+
+
+
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+# Sample documents
+documents = [
+    "The quick brown fox jumps over the lazy dog.",
+    "Never jump over the lazy dog quickly.",
+    "A fast brown fox leaps over sleeping dogs."
+]
+
+# TF-IDF Vectorization
+vectorizer = TfidfVectorizer(stop_words='english')
+tfidf_matrix = vectorizer.fit_transform(documents)
+
+# Convert to DataFrame for easy viewing
+import pandas as pd
+df_tfidf = pd.DataFrame(tfidf_matrix.toarray(), columns=vectorizer.get_feature_names_out())
+
+print("\nTF-IDF Representation:\n")
+print(df_tfidf)
+

@@ -1,0 +1,28 @@
+df.fillna(0,inplace=True)
+
+df2['College_Fees'] = df2['College_Fees'].replace('[\$,]', '', regex=True).astype(float)
+
+# Convert date
+df2['Dt_Admission'] = pd.to_datetime(df2['Dt_Admission'], errors='coerce')
+
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+sns.boxplot(df2['College_Fees'])
+plt.show()
+
+y=sorted(df2['math score'])
+
+import pandas as pd
+
+y = pd.Series(y)  # Convert your list to a pandas Series
+q1 = y.quantile(0.25)
+q3 = y.quantile(0.75)
+iqr = q3 - q1
+upper = q3 + 1.5 * iqr
+lower = q1 - 1.5 * iqr   # Use minus here for lower bound
+outliers = (y < lower) | (y > upper)
+
+print(y[outliers])  # Actual outlier values
+
+df2 = df2[~((df2['math score'] < lower) | (df2['math score'] > upper))]

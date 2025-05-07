@@ -1,0 +1,2 @@
+sns.boxplot(y='age',x='sex',hue='survived', data=data)
+plt.show()

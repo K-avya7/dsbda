@@ -1,0 +1,15 @@
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+features=['SepalLengthCm','SepalWidthCm','PetalLengthCm','Species']
+for col in features:
+    sns.histplot(iris[col],bins=30)
+    plt.show()
+    
+features=['SepalLengthCm','SepalWidthCm','PetalLengthCm','Species']
+for col in features:
+    sns.boxplot(iris[col])
+    plt.title(col+" boxplot")
+    plt.show()
+    
+    
